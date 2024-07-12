@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>question</title>
+    <link rel="stylesheet" href="details.css">
+</head>
+<body>
+    <nav id="navbar">
+        <header>
+            <div class="logo"><img src="logo.svg" alt=""></div>
+            <div class="options"></div>
+            <div id="nav-search" class="nav-search"></div>
+            <button class="button"><a href="/question">Ask Question</a></button>
+            <button class="button"><a href="/profile">Profile</a></button>
+            <button class="button"><a href="/settings">Settings</a></button>
+            <button class="logout" id="logoutButton">Logout</button>
+        </header>
+    </nav>
+    <section>
+        <div class="whole">
+        <div class="right">
+    <div class="question">
+        <h2 class="title"><%=question.title%></h2>
+        <p class="description"><%=question.description%></p>
+        <p class="meta">Posted by <%=question.postedBy.username%> on <%=question.datePosted.toLocaleDateString()%></p>
+
+        </div> 
+<div class="submit">        <!-- Form to submit an answer -->
+<form class="form" action="/answer" method="post">
+    <input type="hidden" name="questionId" value="<%= question._id %>">
+    <textarea name="answerText" placeholder="Your answer...." required></textarea>
+    <input  class="submitbtn" type="submit" value="Submit Answer">
+</form>
+</div>
+</div>
+<div class="left">
+   <lottie-player src="https://lottie.host/aaba61af-878c-497e-a6b3-c27e96f3e328/WAmzOfPsqv.json"  speed="1" loop  autoplay direction="1" mode="normal"></lottie-player><p>The <b>QUERYNEST</b> community is constantly buzzing with the excitement of endless collaboration, proving that learning is more fun — and more effective — when we put our heads together. Help the community by sharing what you know. Answering questions also helps you learn!
+</p>
+</div>
+        </div>
+
+</section>
+<!-- Display existing answers -->
+ <section>
+
+    <h1 class="answerheading
+    ">Answers:</h1>
+    <% if (answers.length > 0) { %>
+        <% answers.forEach(answer => { %>
+            <div class="answer">
+                <p class="description"><%= answer.answerText %></p>
+                <p class="meta">Posted by <a href="/profile/<%= answer.postedBy._id %>"><%= answer.postedBy.username %></a> on <%= answer.datePosted.toLocaleDateString() %></p>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p class="alt">Be the first to answer this question!</p>
+    <% } %>
+
+<button class="goback"> <a href="/dashboard">go back <span> ⬅</span></a></button>
+</section>
+</body>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</html>

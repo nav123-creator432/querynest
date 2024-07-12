@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css">
+    <title>Settings</title>
+</head>
+<body>
+    <nav id="navbar">
+        <header>
+            <div class="logo"><img src="logo.svg" alt=""></div>
+            <div class="options"></div>
+            <div id="nav-search" class="nav-search"></div>
+            <button class="button"><a href="/question">Ask Question</a></button>
+            <button class="button"><a href="/profile">Profile</a></button>
+            <button class="button"><a href="/settings">Settings</a></button>
+            <button class="logout" id="logoutButton">Logout</button>
+        </header>
+    </nav>
+    <div class="big">
+        
+        <div class="img">
+           <lottie-player src="https://lottie.host/f772ae4a-a2a1-449c-bbac-0ce32cd6a92c/i0dXxBtz2H.json" background="##FFFFFF" speed="1" style="width: 300px; height: 300px" loop  autoplay direction="1" mode="normal"></lottie-player>
+        </div>
+        <div class="centre">
+            <div class="container">
+
+    <h1 class="heading"><i class='bx bxs-cog'></i>Settings</h1>
+    <form class=settings action="/settings" method="POST">
+        <label for="username">New Username:</label>
+
+        <input  type="text" id="username" name="username" placeholder="Name" value="<%= user.username %>">
+
+       
+        <input type="password" id="currentPassword"placeholder="CurrentPassword" name="currentPassword" required>
+
+        
+        <input type="password" id="newPassword" placeholder="New Password" name="newPassword">
+
+        <button class="btn" type="submit">Update Profile</button>
+        
+        <div class="error-message"></div>
+    </form>
+
+</div>
+</div>
+</div>
+<button class="goback"> <a href="/dashboard">go back <span> ⬅</span></a></button>
+</body>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script>
+    
+    const logoutButton = document.getElementById('logoutButton');
+        const goBackButton = document.getElementById('goBackButton');
+        
+        logoutButton.addEventListener('click', () => {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login';
+                } else {
+                    throw new Error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+            });
+        });
+
+        if (goBackButton) {
+            goBackButton.addEventListener('click', () => {
+                window.history.back();
+            });
+        }
+
+
+    let form = document.querySelector('.settings');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent the default form submission
+
+        let formData = new FormData(form);
+        let data = {
+           
+            username:formData.get('username'),
+            currentPassword:formData.get('currentPassword'),
+            newPassword: formData.get('newPassword')
+        };
+
+        fetch('/settings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                let errorMessage = document.querySelector('.error-message');
+                errorMessage.innerText = data.msg;
+                errorMessage.style.color='red'
+            }
+            else{
+                let errorMessage = document.querySelector('.error-message');
+                errorMessage.innerText = data.msg;
+                errorMessage.style.color='green';
+            }
+        
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    });
+</script>
+
+</html>

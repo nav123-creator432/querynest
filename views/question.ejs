@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="question.css">
+    <title>Create Question</title>
+</head>
+<body>
+<section>
+    <nav id="navbar">
+        <header>
+            <div class="logo"><img src="logo.svg" alt=""></div>
+            <div class="options"></div>
+            <div id="nav-search" class="nav-search"></div>
+            <button class="button"><a href="/question">Ask Question</a></button>
+            <button class="button"><a href="/profile">Profile</a></button>
+            <button class="button"><a href="/settings">Settings</a></button>
+            <button class="logout" id="logoutButton">Logout</button>
+        </header>
+    </nav>
+    <div class="container">
+        <div class="quote"><span>Ask a question about your assignment</span></div>
+    <form class="form" action="/question" method="post">
+        <input type="text" class="title" name="title" placeholder="Title" required>
+        
+        <textarea name="description"  placeholder="Write a question" required></textarea>
+        <input class="post" type="submit" value="POST">
+    </form>
+    
+</div>
+<button class="btn"> <a href="/dashboard">Go back <span> ⬅</span>
+
+</a></button>
+   
+</section>
+
+</body>
+<script>
+      const logoutButton = document.getElementById('logoutButton');
+        const goBackButton = document.getElementById('goBackButton');
+        
+        logoutButton.addEventListener('click', () => {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login';
+                } else {
+                    throw new Error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+            });
+        });
+
+        if (goBackButton) {
+            goBackButton.addEventListener('click', () => {
+                window.history.back();
+            });
+        }
+</script>
+</html>

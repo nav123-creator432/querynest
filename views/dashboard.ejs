@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css">
+</head>
+<body>
+    <section class="first">
+        <nav id="navbar">
+            <header>
+                <div class="logo"><img src="logo.svg" alt=""></div>
+                <div class="options"></div>
+                <div id="nav-search" class="nav-search"></div>
+                <button class="button"><a href="/question">Ask Question</a></button>
+                <button class="button"><a href="/profile">Profile</a></button>
+                <button class="button"><a href="/settings">Settings</a></button>
+                <button class="logout" id="logoutButton">Logout</button>
+            </header>
+        </nav>
+        <dotlottie-player src="https://lottie.host/8941351f-177a-4a76-924a-d6506613d2a0/3Xkfpo1I3z.json" background="transparent" speed="1" direction="1" playMode="normal" loop autoplay></dotlottie-player>
+        <h1 class="heading">Go from questioning to understanding</h1>
+        <p class="quote">Querynest is the knowledge-sharing community where hundreds of millions of students and experts put their heads together to crack their toughest homework questions. Search:</p>
+        <div class="search" id="main-search">
+            <form action="/dashboard" method="get">
+                <input type="text" name="q" placeholder="What is your question?" value="<%= searchQuery %>">
+                
+                <button class="searchicon" type="submit"><i class='bx bx-search-alt-2'></i></button>
+            </form>
+            <% if (isSearch) { %>
+                <button id="goBackButton">⬅</button>
+            <% } %>
+        </div>
+    </section>
+    <section class="second">
+        <div class="heading-wrapper"><dotlottie-player src="https://lottie.host/d6288562-f9e4-4df0-be0a-c8cbf4aab87f/oddFHMwGbv.json" background="transparent" speed="1" direction="1" playMode="normal" loop autoplay></dotlottie-player>
+            <h1 class="headin">FREQUENT QUESTIONS</h1></div>
+            <% if (questions.length > 0) { %>
+                
+                <% questions.forEach(question => { %>
+                    <div class="question">
+                    
+                        <h3 class="title"><%= question.title %></h3>
+                    
+                    <p class="description"><%= question.description %></p>
+                    <p class="meta">Posted by <a class="othersprofile" href="/profile/<%= question.postedBy._id %>"><%= question.postedBy.username %></a> on <%= question.datePosted.toLocaleDateString() %></p>
+                    <a class="single" href="/<%= question._id %>"><button class="answerbtn">Answer</button></a>
+                </div>
+                <% }) %>
+            <% } else { %>
+                <p class="alt">NO QUESTION FOUND.. BE THE FIRST TO ASK THE QUESTION</p>
+            <% } %>
+       
+    </section>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            var navbar = document.getElementById('navbar');
+            var search = document.getElementById('main-search');
+            var navSearch = document.getElementById('nav-search');
+            
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+                navSearch.appendChild(search);
+            } else {
+                navbar.classList.remove('scrolled');
+                document.querySelector('.first').appendChild(search);
+            }
+        });
+        
+
+        const logoutButton = document.getElementById('logoutButton');
+        const goBackButton = document.getElementById('goBackButton');
+        window.addEventListener('scroll', function() {
+           
+            const goBackButton = document.getElementById('goBackButton');
+
+            if (window.scrollY > 50) {
+                goBackButton.classList.add('scrolled');
+               
+            } else {
+                goBackButton.classList.remove('scrolled');
+                
+            }
+        });
+        
+        
+        logoutButton.addEventListener('click', () => {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login';
+                } else {
+                    throw new Error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+            });
+        });
+
+        if (goBackButton) {
+            goBackButton.addEventListener('click', () => {
+                window.history.back();
+            });
+        }
+    </script>
+</body>
+</html>
