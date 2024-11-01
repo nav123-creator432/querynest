@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="search.css">
+</head>
+<body>
+    
+    <section class="first">
+        <button id="goBackButton">⬅ Back to Dashboard</button>
+        <h1>Search Results for "<%= searchQuery %>"</h1>
+        
+    </section>
+    <section class="second">
+        <% if (questions.length > 0) { %>
+            <% questions.forEach(question => { %>
+                <div class="question">
+                    <h3 class="title"><%= question.title %></h3>
+                    <p class="description"><%= question.description %></p>
+                    <p class="meta">Posted by <a href="/profile/<%= question.postedBy._id %>"><%= question.postedBy.username %></a> on <%= question.datePosted.toLocaleDateString() %></p>
+                    <a href="/<%= question._id %>"><button class="answerbtn">Answer</button></a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="alt">No questions found for your search.
+                <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script> 
+
+    <dotlottie-player src="https://lottie.host/9a8fa4e9-c3e4-4254-9168-3baa2113a80d/SJAOsaBLji.json" background="transparent" speed="1"  loop autoplay></dotlottie-player>
+            </p>
+        <% } %>
+    </section>
+    <script>
+        document.getElementById('goBackButton').addEventListener('click', () => {
+            window.location.href = '/dashboard';
+        });
+    </script>
+</body>
+</html>

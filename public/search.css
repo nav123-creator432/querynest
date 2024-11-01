@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+
+.first h1{
+margin: 20px 20px;
+}
+
+#goBackButton{
+   
+    margin:30px 20px;
+        font-size: larger;
+        background-color:rgb(51, 137, 166);
+        color: black;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        
+    }
+
+.second {
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   
+    margin-top: 75px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 10px;
+    border-left: 2px solid grey;
+
+}
+
+
+
+.question{
+    width:100%;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    margin: 20px 35px;
+    padding:40px 30px;
+}
+.title,.description,.meta{
+    margin-bottom: 6px;
+}
+.title{
+    color: black;
+
+}
+.description{
+color: black;
+}
+.meta{
+    color: grey;
+}
+.single{
+    text-decoration: none;
+
+}
+.othersprofile{
+   
+   
+    border: none;
+    border-radius: 2px;
+    padding: 4px;
+    color:black;
+
+}
+.headin{
+   font-size: 56px;
+  font-weight: bold;
+  
+
+}
+ dotlottie-player{
+    width:300px;
+    height:300px;
+    margin-left: 80px;
+
+
+  
+}
+.heading-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.answerbtn{
+    border: none;
+    padding: 6px;
+    margin: 6px 0px;
+    background-color: aqua;
+
+}
+.answerbtn:hover{
+
+color: white;
+cursor: pointer;
+}
+.alt{
+    font-size: 30px;
+    margin: 20px 0px;
+    color: rgb(22, 83, 103);
+   
+}

@@ -1,13 +1,19 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+require("dotenv").config(); // Make sure to install dotenv
 
-const MONGODB_URL = 'mongodb+srv://navya:1234@cluster0.wkzfywa.mongodb.net/user?retryWrites=true&w=majority&appName=Cluster0'
+const MONGODB_URL = process.env.MONGODB_URL;
 
 exports.connect = () => {
-    mongoose.connect(MONGODB_URL)
-    .then()
-    .catch((error) => {
-        console.log(`DB connection FAILED`);
-        console.log(error);
-        process.exit(1)
+    mongoose.connect(MONGODB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     })
-}
+    .then(() => {
+        console.log("DB connection successful");
+    })
+    .catch((error) => {
+        console.error("DB connection FAILED");
+        console.error(error);
+        process.exit(1);
+    });
+};

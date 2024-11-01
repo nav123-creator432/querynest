@@ -1,5 +1,6 @@
 
 require("./database/database").connect()
+require('dotenv').config();
 const {User,Question,Answer} = require('./models/user')
 const express = require('express')
 const bcrypt = require('bcryptjs')
@@ -137,25 +138,44 @@ app.post('/login', async (req, res) => {
 
 
 
-app.get('/dashboard', auth, async (req, res) => {
+// app.get('/dashboard', auth, async (req, res) => {
     
-    const searchQuery = req.query.q || ''; 
-    let questions = [];
-    let isSearch = false;
+//     const searchQuery = req.query.q || ''; 
+//     let questions = [];
+//     let isSearch = false;
 
+//     if (searchQuery) {
+//         questions = await Question.find({
+//             $or: [
+//                 { title: { $regex: searchQuery, $options: 'i' } },
+//                 { description: { $regex: searchQuery, $options: 'i' } }
+//             ]
+//         }).sort({ datePosted: -1 }).populate('postedBy', 'username');
+//         isSearch = true;
+//     } else {
+//         questions = await Question.find().sort({ datePosted: -1 }).populate('postedBy', 'username');
+//     }
+
+//     res.render('dashboard', {  questions, searchQuery, isSearch });
+// });
+app.get('/dashboard', auth, async (req, res) => {
+    const searchQuery = req.query.q || '';
     if (searchQuery) {
-        questions = await Question.find({
-            $or: [
-                { title: { $regex: searchQuery, $options: 'i' } },
-                { description: { $regex: searchQuery, $options: 'i' } }
-            ]
-        }).sort({ datePosted: -1 }).populate('postedBy', 'username');
-        isSearch = true;
-    } else {
-        questions = await Question.find().sort({ datePosted: -1 }).populate('postedBy', 'username');
+        return res.redirect(`/search?q=${searchQuery}`);
     }
-
-    res.render('dashboard', {  questions, searchQuery, isSearch });
+    const questions = await Question.find().sort({ datePosted: -1 }).populate('postedBy', 'username');
+    res.render('dashboard', { questions, searchQuery: '', isSearch: false });
+});
+app.get('/search', auth, async (req, res) => {
+    const searchQuery = req.query.q || '';
+    const questions = await Question.find({
+        $or: [
+            { title: { $regex: searchQuery, $options: 'i' } },
+            { description: { $regex: searchQuery, $options: 'i' } }
+        ]
+    }).sort({ datePosted: -1 }).populate('postedBy', 'username');
+    
+    res.render('searchResults', { questions, searchQuery });
 });
 
 // Render settings page
